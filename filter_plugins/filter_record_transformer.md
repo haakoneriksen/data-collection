@@ -78,6 +78,18 @@ For NEW_VALUE, a special syntax `${}` allows the user to generate a new field dy
 - `tag_suffix[N]` refers to the last N parts of the tag. It works like the usual zero-based array accessor.
 - `tag` refers to the whole tag.
 
+For accessing nested tags, you need to set the `enable_ruby` directive, and then the sub-tags are available by specifying tags after each other. For example, if you use the kubernetes metadata plugin, you can get the app name like this: 
+
+
+    <filter kubernetes.*>
+      type record_transformer
+      ruby_enable
+      <record>
+        app_name ${record["kubernetes"]["labels"]["app"]}
+      </record>
+    </filter>
+
+
 ### enable_ruby (optional)
 
 When set to true, the full Ruby syntax is enabled in the `${...}` expression. The default value is false.
